@@ -14,8 +14,8 @@ The goal of this project is to demonstrate the use of JavaScript concepts such a
 
 ## 🔌 Public API Used
 
-* OMDb API
-* https://www.omdbapi.com/
+* TMDB API
+* https://developer.themoviedb.org/docs/getting-started
 
 ---
 
