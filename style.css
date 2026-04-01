@@ -1,0 +1,30 @@
+
+body {
+    background-color: #111;
+    color: white;
+    font-family: Arial;
+    text-align: center;
+}
+
+input, button {
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    border: none;
+}
+
+button {
+    background-color: #e50914;
+    color: white;
+    cursor: pointer;
+}
+
+#movies {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#movies div {
+    margin: 10px;
+}
