@@ -1,10 +1,18 @@
 let currentMovies = [];
 let watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
 function addToWatchlist(index) {
-    watchlist.push(currentMovies[index]);
+    const movie = currentMovies[index];
+    const alreadyExists = watchlist.some(item => item.id === movie.id);
+    if (alreadyExists) {
+        alert("Already in watchlist!");
+        return;
+    }
+
+    // watchlist.push(currentMovies[index]);
+    watchlist.push(movie);
     localStorage.setItem("watchlist", JSON.stringify(watchlist));
-    alert("Added to watchlist!");
-    // displayWatchlist();
+    // alert("Added to watchlist!");
+    displayWatchlist();
 }
 function showWatchlist() {
     console.log(watchlist);
@@ -37,13 +45,14 @@ function displayMovies(movies) {
 
     movies.forEach((movie,index) => {
         const div = document.createElement("div");
+        div.className = "movie-card";
 
         const poster = movie.poster_path
             ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
-            : " ";          //  "https://via.placeholder.com/200x300?text=No+Image"
+            : "https://via.placeholder.com/200x300?text=No+Image";
 
         div.innerHTML = `
-            <img src="${poster}" width="150">
+            <img src="${poster}" alt="${movie.title}">
             <p>${movie.title}</p>
             <button onclick='addToWatchlist(${index})'>Add</button>
         `;
@@ -56,16 +65,18 @@ function displayWatchlist() {
     const container = document.getElementById("watchlist");
     container.innerHTML = "";
 
-    watchlist.forEach(movie => {
+    watchlist.forEach((movie,index) => {
         const div = document.createElement("div");
+        div.className = "movie-card";
 
         const poster = movie.poster_path
             ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
-            : "https://via.placeholder.com/200x300?text=No+Image";
+             : "https://via.placeholder.com/200x300?text=No+Image";
 
         div.innerHTML = `
-            <img src="${poster}" width="100">
+            <img src="${poster}" alt="${movie.title}">
             <p>${movie.title}</p>
+            <button class="remove-btn" onclick="removeFromWatchlist(${index})">❌ Remove</button>
         `;
 
         container.appendChild(div);
@@ -74,3 +85,41 @@ function displayWatchlist() {
 
 displayWatchlist();
 
+
+function removeFromWatchlist(index) {
+    watchlist.splice(index, 1);
+    localStorage.setItem("watchlist", JSON.stringify(watchlist));
+    displayWatchlist();
+}
+
+document.getElementById("watchlistSearch").addEventListener("input", (e) => {
+    const value = e.target.value.toLowerCase();
+
+    const filtered = watchlist.filter(movie =>
+        movie.title.toLowerCase().includes(value)
+    );
+
+    displayWatchlist(filtered);
+});
+
+function displayFilteredWatchlist(movies) {
+    const container = document.getElementById("watchlist");
+    container.innerHTML = "";
+
+    movies.forEach((movie, index) => {
+        const div = document.createElement("div");
+        div.className = "movie-card";
+
+        const poster = movie.poster_path
+            ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
+            : "https://via.placeholder.com/200x300?text=No+Image";
+
+        div.innerHTML = `
+            <img src="${poster}" alt="${movie.title}">
+            <p>${movie.title}</p>
+            <button onclick="addToWatchlist(${index})">+ Watchlist</button>
+        `;
+
+        container.appendChild(div);
+    });
+}

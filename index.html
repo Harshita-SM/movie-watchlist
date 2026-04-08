@@ -1,20 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie Watchlist</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Styles CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <h1>🎬 Movie Finder</h1>
+    <header>
+        <h1>MOVIE FINDER</h1>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search movies...">
+            <button id="searchBtn">Search</button>
+        </div>
+    </header>
 
-    <input type="text" id="searchInput" placeholder="Search movie...">
-    <button id="searchBtn">Search</button>
+    <main>
+        <section class="section-container">
+            <h2>Results</h2>
+            <div id="movies"></div>
+        </section>
 
-    <div id="movies"></div>
-
-    <h2>⭐ Watchlist</h2>
-    <div id="watchlist"></div>
+        <section class="section-container">
+            <div class="watchlist-header">
+                <h2>Watchlist</h2>
+                <input type="text" id="watchlistSearch" placeholder="Filter watchlist...">
+            </div>
+            <div id="watchlist"></div>
+        </section>
+    </main>
 
     <script src="script.js"></script>
 </body>
