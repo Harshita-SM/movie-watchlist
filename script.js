@@ -89,26 +89,42 @@ displayWatchlist();
 function removeFromWatchlist(index) {
     watchlist.splice(index, 1);
     localStorage.setItem("watchlist", JSON.stringify(watchlist));
-    displayWatchlist();
+    
+    const searchValue = document.getElementById("watchlistSearch").value.toLowerCase();
+    if (searchValue) {
+        const filtered = watchlist.filter(movie => 
+            movie.title.toLowerCase().includes(searchValue)
+        );
+        displayFilteredWatchlist(filtered);
+    } else {
+        displayWatchlist();
+    }
 }
 
 document.getElementById("watchlistSearch").addEventListener("input", (e) => {
     const value = e.target.value.toLowerCase();
 
+    if (value === "") {
+        displayWatchlist();
+        return;
+    }
+
     const filtered = watchlist.filter(movie =>
         movie.title.toLowerCase().includes(value)
     );
 
-    displayWatchlist(filtered);
+    displayFilteredWatchlist(filtered);
 });
 
 function displayFilteredWatchlist(movies) {
     const container = document.getElementById("watchlist");
     container.innerHTML = "";
 
-    movies.forEach((movie, index) => {
+    movies.forEach((movie) => {
         const div = document.createElement("div");
         div.className = "movie-card";
+
+        const originalIndex = watchlist.indexOf(movie);
 
         const poster = movie.poster_path
             ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
@@ -117,7 +133,7 @@ function displayFilteredWatchlist(movies) {
         div.innerHTML = `
             <img src="${poster}" alt="${movie.title}">
             <p>${movie.title}</p>
-            <button onclick="addToWatchlist(${index})">+ Watchlist</button>
+            <button class="remove-btn" onclick="removeFromWatchlist(${originalIndex})">❌ Remove</button>
         `;
 
         container.appendChild(div);
