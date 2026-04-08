@@ -163,3 +163,23 @@ function displayFilteredWatchlist(movies) {
         container.appendChild(div);
     });
 }
+
+// Theme Toggle Logic
+const themeToggleBtn = document.getElementById("themeToggle");
+
+// Check local storage for saved theme
+const savedTheme = localStorage.getItem("theme");
+if (savedTheme === "dark") {
+    document.body.classList.add("dark");
+}
+
+themeToggleBtn.addEventListener("click", () => {
+    document.body.classList.toggle("dark");
+    
+    // Save preference to localStorage
+    if (document.body.classList.contains("dark")) {
+        localStorage.setItem("theme", "dark");
+    } else {
+        localStorage.setItem("theme", "light");
+    }
+});
