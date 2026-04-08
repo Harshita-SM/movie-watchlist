@@ -1,18 +1,29 @@
 let currentMovies = [];
 let watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
-function addToWatchlist(index) {
+function addToWatchlist(index, btn) {
     const movie = currentMovies[index];
     const alreadyExists = watchlist.some(item => item.id === movie.id);
+    
+    // Store old text to reset easily
+    const originalText = btn.innerText;
+
     if (alreadyExists) {
-        alert("Already in watchlist!");
+        btn.innerText = "Already Added";
+        setTimeout(() => {
+            btn.innerText = originalText;
+        }, 2000);
         return;
     }
 
-    // watchlist.push(currentMovies[index]);
     watchlist.push(movie);
     localStorage.setItem("watchlist", JSON.stringify(watchlist));
-    // alert("Added to watchlist!");
     displayWatchlist();
+    
+    // Success State
+    btn.innerText = "Added ✔";
+    setTimeout(() => {
+        btn.innerText = originalText;
+    }, 2000);
 }
 function showWatchlist() {
     console.log(watchlist);
@@ -54,7 +65,7 @@ function displayMovies(movies) {
         div.innerHTML = `
             <img src="${poster}" alt="${movie.title}">
             <p>${movie.title}</p>
-            <button onclick='addToWatchlist(${index})'>Add</button>
+            <button onclick='addToWatchlist(${index}, this)'>+ Watchlist</button>
         `;
 
         container.appendChild(div);
