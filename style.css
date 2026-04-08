@@ -108,8 +108,33 @@ button:active {
     margin-bottom: 0;
 }
 
-.watchlist-header input {
+.watchlist-controls {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.watchlist-controls input {
     max-width: 300px;
+}
+
+select {
+    padding: 14px 20px;
+    border-radius: 30px;
+    border: 2px solid #333;
+    background-color: #2a2a2a;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s, background-color 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+}
+
+select:focus {
+    border-color: #e50914;
+    background-color: #333;
+    box-shadow: 0 0 12px rgba(229, 9, 20, 0.4);
 }
 
 h2 {

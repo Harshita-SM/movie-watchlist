@@ -101,20 +101,33 @@ function removeFromWatchlist(index) {
     }
 }
 
-document.getElementById("watchlistSearch").addEventListener("input", (e) => {
-    const value = e.target.value.toLowerCase();
+document.getElementById("watchlistSearch").addEventListener("input", updateWatchlistView);
+document.getElementById("sortOptions").addEventListener("change", updateWatchlistView);
 
-    if (value === "") {
-        displayWatchlist();
-        return;
+function updateWatchlistView() {
+    const searchValue = document.getElementById("watchlistSearch").value.toLowerCase();
+    const sortValue = document.getElementById("sortOptions").value;
+    
+    let resultList = [...watchlist];
+
+    if (searchValue !== "") {
+        resultList = resultList.filter(movie =>
+            movie.title.toLowerCase().includes(searchValue)
+        );
     }
 
-    const filtered = watchlist.filter(movie =>
-        movie.title.toLowerCase().includes(value)
-    );
+    if (sortValue === "A → Z") {
+        resultList.sort((a, b) => a.title.localeCompare(b.title));
+    } else if (sortValue === "Z → A") {
+        resultList.sort((a, b) => b.title.localeCompare(a.title));
+    }
 
-    displayFilteredWatchlist(filtered);
-});
+    if (searchValue === "" && sortValue === "Sort") {
+        displayWatchlist();
+    } else {
+        displayFilteredWatchlist(resultList);
+    }
+}
 
 function displayFilteredWatchlist(movies) {
     const container = document.getElementById("watchlist");

@@ -30,7 +30,14 @@
         <section class="section-container">
             <div class="watchlist-header">
                 <h2>Watchlist</h2>
-                <input type="text" id="watchlistSearch" placeholder="Filter watchlist...">
+                <div class="watchlist-controls">
+                    <select id="sortOptions">
+                        <option value="Sort">Sort</option>
+                        <option value="A → Z">A → Z</option>
+                        <option value="Z → A">Z → A</option>
+                    </select>
+                    <input type="text" id="watchlistSearch" placeholder="Filter watchlist...">
+                </div>
             </div>
             <div id="watchlist"></div>
         </section>
