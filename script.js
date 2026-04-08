@@ -39,15 +39,17 @@ searchBtn.addEventListener("click", () => {
     fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}`)
         .then(res => res.json())
         .then(data => {
-            // if (data.results) {
-            //     displayMovies(data.results);
+            if (data.results && data.results.length > 0) {
                 currentMovies = data.results;
                 displayMovies(currentMovies);
+            } else {
+                document.getElementById("movies").innerHTML = "<p>No movies found. Try a different search.</p>";
+            }
+        })
+        .catch(err => {
+            console.error("API Fetch Error:", err);
+            document.getElementById("movies").innerHTML = "<p style='color: #e50914;'>Something went wrong. Please try again later.</p>";
         });
-//             } else {
-//                 document.getElementById("movies").innerHTML = "<p>No movies found</p>";
-//             }
-//         });
 });
 
 function displayMovies(movies) {
