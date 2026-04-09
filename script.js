@@ -1,6 +1,18 @@
 let currentMovies = [];
 let watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
 
+// ---------------- Debounce ----------------
+function debounce(func, delay) {
+    let timer;
+    return function (...args) {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            func.apply(this, args);
+        }, delay);
+    };
+}
+
+// ---------------- Add to Watchlist ----------------
 function addToWatchlist(index, btn) {
     const movie = currentMovies[index];
     const alreadyExists = watchlist.some(item => item.id === movie.id);
@@ -25,14 +37,13 @@ function addToWatchlist(index, btn) {
     }, 2000);
 }
 
-const apiKey = "YOUR_API_KEY_HERE";
+// ---------------- API Key ----------------
+const apiKey = "96df6a80aefc90bf1999777b1612345e";
 
-const searchBtn = document.getElementById("searchBtn");
+// ---------------- Search Function ----------------
+function searchMovies(query) {
+    if (!query) return;
 
-searchBtn.addEventListener("click", () => {
-    const query = document.getElementById("searchInput").value;
-
-    // ✅ SHOW LOADING
     document.getElementById("loading").style.display = "block";
 
     fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}`)
@@ -42,21 +53,35 @@ searchBtn.addEventListener("click", () => {
                 currentMovies = data.results;
                 displayMovies(currentMovies);
             } else {
-                document.getElementById("movies").innerHTML = "<p>No movies found. Try a different search.</p>";
+                document.getElementById("movies").innerHTML = "<p>No movies found</p>";
             }
 
-            // ✅ HIDE LOADING
             document.getElementById("loading").style.display = "none";
         })
-        .catch(err => {
-            console.error("API Fetch Error:", err);
-            document.getElementById("movies").innerHTML = "<p style='color: #e50914;'>Something went wrong. Please try again later.</p>";
-
-            // ✅ HIDE LOADING EVEN ON ERROR
+        .catch(() => {
+            document.getElementById("movies").innerHTML = "<p style='color:#e50914;'>Something went wrong</p>";
             document.getElementById("loading").style.display = "none";
         });
+}
+
+// ---------------- Debounced Search ----------------
+const debouncedSearch = debounce(searchMovies, 500);
+
+// ---------------- Events ----------------
+const searchBtn = document.getElementById("searchBtn");
+
+// Button click (still works)
+searchBtn.addEventListener("click", () => {
+    const query = document.getElementById("searchInput").value;
+    searchMovies(query);
 });
 
+// Typing search (debounced)
+document.getElementById("searchInput").addEventListener("input", (e) => {
+    debouncedSearch(e.target.value);
+});
+
+// ---------------- Display Movies ----------------
 function displayMovies(movies) {
     const container = document.getElementById("movies");
     container.innerHTML = "";
@@ -79,6 +104,7 @@ function displayMovies(movies) {
     });
 }
 
+// ---------------- Watchlist ----------------
 function displayWatchlist() {
     const container = document.getElementById("watchlist");
     container.innerHTML = "";
@@ -103,21 +129,14 @@ function displayWatchlist() {
 
 displayWatchlist();
 
+// ---------------- Remove ----------------
 function removeFromWatchlist(index) {
     watchlist.splice(index, 1);
     localStorage.setItem("watchlist", JSON.stringify(watchlist));
-
-    const searchValue = document.getElementById("watchlistSearch").value.toLowerCase();
-    if (searchValue) {
-        const filtered = watchlist.filter(movie =>
-            movie.title.toLowerCase().includes(searchValue)
-        );
-        displayFilteredWatchlist(filtered);
-    } else {
-        displayWatchlist();
-    }
+    updateWatchlistView();
 }
 
+// ---------------- Filter + Sort ----------------
 document.getElementById("watchlistSearch").addEventListener("input", updateWatchlistView);
 document.getElementById("sortOptions").addEventListener("change", updateWatchlistView);
 
@@ -139,11 +158,7 @@ function updateWatchlistView() {
         resultList.sort((a, b) => b.title.localeCompare(a.title));
     }
 
-    if (searchValue === "" && sortValue === "Sort") {
-        displayWatchlist();
-    } else {
-        displayFilteredWatchlist(resultList);
-    }
+    displayFilteredWatchlist(resultList);
 }
 
 function displayFilteredWatchlist(movies) {
@@ -170,7 +185,7 @@ function displayFilteredWatchlist(movies) {
     });
 }
 
-// Theme Toggle
+// ---------------- Theme ----------------
 const themeToggleBtn = document.getElementById("themeToggle");
 
 const savedTheme = localStorage.getItem("theme");
