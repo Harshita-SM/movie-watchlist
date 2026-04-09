@@ -304,3 +304,8 @@ body.dark #watchlist::-webkit-scrollbar-thumb {
 body.dark #watchlist::-webkit-scrollbar-thumb:hover {
     background-color: #666;
 }
+#loading {
+    color: #e50914;
+    font-size: 18px;
+    margin-top: 10px;
+}
