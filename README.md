@@ -1,89 +1,121 @@
-# 🎬 Movie Watchlist Web Application
+# 🎬 Movie Finder & Watchlist App
 
-## 📌 Project Overview
+## 📌 Project Description
 
-This project is a web-based application that allows users to search for movies and create a personalized watchlist. It integrates a public movie API to fetch real-time data and provides an interactive and user-friendly premium interface.
-
----
-
-## 🎯 Purpose
-
-The goal of this project is to demonstrate the use of JavaScript concepts such as API integration, higher-order functions (`filter`, `some`, `sort`, `forEach`), responsive CSS grids, and dynamic, seamless UI development.
+Movie Finder is a web application that allows users to search for movies using the TMDB API and manage a personalized watchlist. The app provides a clean UI, smooth interactions, and optimized performance using modern JavaScript concepts.
 
 ---
 
-## 🔌 Public API Used
+## 🚀 Features
 
-* TMDB API
-* https://developer.themoviedb.org/docs/getting-started
+### 🔍 Search Movies
+
+* Search movies using TMDB API
+* Real-time search with debouncing
+* Displays movie posters and titles
+
+### ⭐ Watchlist
+
+* Add movies to watchlist
+* Remove movies from watchlist
+* Prevent duplicate entries
+
+### 🎯 Filtering & Sorting
+
+* Filter watchlist using search input
+* Sort movies:
+
+  * A → Z
+  * Z → A
+* Implemented using array higher-order functions
+
+### 🌙 Theme Toggle
+
+* Dark / Light mode switch
+* Theme preference saved using localStorage
 
 ---
 
-## ✨ Features
+## ⚡ Bonus Features
 
-### 🔍 Movie Search
-Users can seamlessly search for movies by title through the TMDB API and view results instantly.
-
-### 🎬 Movie Display
-Movies are displayed cleanly inside responsive, animated component cards with:
-* High-quality Poster
-* Title
-* Interactive feedback buttons
-
-### ⭐ Watchlist Management
-* **Add dynamically:** Add movies to a watchlist with visual confirmation directly on the button UI.
-* **Smart duplicates:** Prevents duplicate movie additions inherently using `.some()`.
-* **Remove dynamically:** Remove movies smoothly, retaining search states within the list.
-
-### 💾 Data Persistence
-* The entire watchlist and the active theme are persistently saved using browser `localStorage`.
-
-### 🔎 Filtering & Sorting (Higher-Order Functions)
-* **Search within watchlist:** Uses `Array.prototype.filter()` and `.includes()` for real-time text matching.
-* **Sort alphabetically:** Uses `Array.prototype.sort()` and `localeCompare()` to arrange movies securely without traditional loop paradigms.
-
-### 🌙 Dark / Light Mode
-* Integrated theme toggling utilizing CSS Custom Classes, providing a premium viewing experience that automatically re-loads when returning.
-
-### 📱 Responsive UI
-* CSS Grid allows elegant adaptation to any screen size without relying on external frameworks.
+* ⏱️ Debouncing (optimized API calls)
+* ⏳ Loading Indicator during API fetch
+* 💾 Local Storage (persistent watchlist & theme)
+* ⚠️ Error Handling for API failures
 
 ---
 
 ## 🛠️ Technologies Used
 
-* Plain HTML5
-* Vanilla CSS3 (Custom properties, Grid, Flexbox)
-* Vanilla JavaScript (ES6+)
-* Fetch API with Promises (`.then` & `.catch`)
+* HTML
+* CSS
+* JavaScript (Vanilla JS)
+* TMDB API
+
+---
+
+## 🧠 Concepts Used
+
+* Fetch API
+* Higher-Order Functions:
+
+  * map()
+  * filter()
+  * sort()
+  * forEach()
+  * some()
+* Event Handling
+* DOM Manipulation
+* Debouncing
+* Local Storage
+* Error Handling
+
+---
+
+## 📂 Project Structure
+
+* `index.html` → Structure of the app
+* `style.css` → Styling and UI
+* `script.js` → Logic and functionality
+* `config.js` → API key (ignored in Git)
+
+---
+
+## 🔐 API Key Security
+
+The API key is stored in a separate `config.js` file and excluded using `.gitignore` to prevent exposure.
+
+---
+
+## 🎯 Learning Outcomes
+
+* Worked with real-world APIs
+* Improved UI/UX design
+* Learned optimization techniques (debouncing)
+* Practiced clean code and modular structure
+* Implemented data persistence using localStorage
 
 ---
 
 ## 🚀 Future Enhancements
 
-* 🎲 Random Movie Picker
-* ⭐ Ratings display
-* 📅 Release Date sorting
+* Pagination
+* Infinite scroll
+* Movie details page
+* “Where to watch” feature
 
 ---
 
-## 📂 Project Setup
+## 📅 Milestone Completion
 
-1. Clone the repository
-2. Open the project folder
-3. Run `index.html` in your modern web browser!
-
----
-
-## 📊 Learning Outcomes
-
-* Robust API integration using `fetch` with error handling (`.catch()`).
-* Advanced application of higher-order functions (`forEach`, `filter`, `sort`, `some`).
-* Deep usage of the DOM API for generating components dynamically.
-* Creating simple yet elegant state-persisting architectures with `localStorage`.
+* ✅ Milestone 1: Project Setup
+* ✅ Milestone 2: API Integration & UI
+* ✅ Milestone 3: Core Features (Search, Filter, Sort)
+* ⭐ Bonus Features Implemented
 
 ---
 
-## ✅ Conclusion
+## 👩‍💻 Author
 
-This project successfully proves how robust modern web applications can be constructed entirely from fundamental native web technologies without relying on frameworks. It combines external APIs, snappy complex user interaction, and dynamic content rendering beautifully.
+Harshita
+
