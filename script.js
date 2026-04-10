@@ -1,6 +1,18 @@
 let currentMovies = [];
 let watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
 
+// ---------------- API KEY ----------------
+let apiKey = "";
+
+// Fetch API key from Vercel backend
+function getApiKey() {
+    return fetch("/api/key")
+        .then(res => res.json())
+        .then(data => {
+            apiKey = data.key;
+        });
+}
+
 // ---------------- Debounce ----------------
 function debounce(func, delay) {
     let timer;
@@ -37,31 +49,31 @@ function addToWatchlist(index, btn) {
     }, 2000);
 }
 
-// ---------------- API Key ----------------
-const apiKey = "YOUR_API_KEY";
-
 // ---------------- Search Function ----------------
 function searchMovies(query) {
     if (!query) return;
 
     document.getElementById("loading").style.display = "block";
 
-    fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}`)
-        .then(res => res.json())
-        .then(data => {
-            if (data.results && data.results.length > 0) {
-                currentMovies = data.results;
-                displayMovies(currentMovies);
-            } else {
-                document.getElementById("movies").innerHTML = "<p>No movies found</p>";
-            }
+    // Ensure API key is loaded first
+    getApiKey().then(() => {
+        fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.results && data.results.length > 0) {
+                    currentMovies = data.results;
+                    displayMovies(currentMovies);
+                } else {
+                    document.getElementById("movies").innerHTML = "<p>No movies found</p>";
+                }
 
-            document.getElementById("loading").style.display = "none";
-        })
-        .catch(() => {
-            document.getElementById("movies").innerHTML = "<p style='color:#e50914;'>Something went wrong</p>";
-            document.getElementById("loading").style.display = "none";
-        });
+                document.getElementById("loading").style.display = "none";
+            })
+            .catch(() => {
+                document.getElementById("movies").innerHTML = "<p style='color:#e50914;'>Something went wrong</p>";
+                document.getElementById("loading").style.display = "none";
+            });
+    });
 }
 
 // ---------------- Debounced Search ----------------
@@ -70,13 +82,11 @@ const debouncedSearch = debounce(searchMovies, 500);
 // ---------------- Events ----------------
 const searchBtn = document.getElementById("searchBtn");
 
-// Button click (still works)
 searchBtn.addEventListener("click", () => {
     const query = document.getElementById("searchInput").value;
     searchMovies(query);
 });
 
-// Typing search (debounced)
 document.getElementById("searchInput").addEventListener("input", (e) => {
     debouncedSearch(e.target.value);
 });
