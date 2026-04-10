@@ -1,15 +1,28 @@
 let currentMovies = [];
 let watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
 
+// Inline SVG fallback — no external dependency, always works
+const NO_POSTER = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='300'><rect width='200' height='300' fill='%231e1e1e'/><text x='50%25' y='45%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='36' fill='%23555'>🎬</text><text x='50%25' y='62%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='13' fill='%23666'>No Poster</text></svg>`;
+
 // ---------------- API KEY ----------------
+// For local development, paste your TMDB API key below.
+// On Vercel, the key is fetched securely from /api/key.
+const LOCAL_API_KEY = "YOUR_TMDB_API_KEY_HERE"; // ← Replace this for local use
+
 let apiKey = "";
 
-// Fetch API key from Vercel backend
 function getApiKey() {
     return fetch("/api/key")
-        .then(res => res.json())
+        .then(res => {
+            if (!res.ok) throw new Error("No backend");
+            return res.json();
+        })
         .then(data => {
             apiKey = data.key;
+        })
+        .catch(() => {
+            // Fallback for local development
+            apiKey = LOCAL_API_KEY;
         });
 }
 
@@ -102,7 +115,7 @@ function displayMovies(movies) {
 
         const poster = movie.poster_path
             ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
-            : "https://via.placeholder.com/200x300?text=No+Image";
+            : NO_POSTER;
 
         div.innerHTML = `
             <img src="${poster}" alt="${movie.title}">
@@ -125,7 +138,7 @@ function displayWatchlist() {
 
         const poster = movie.poster_path
             ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
-            : "https://via.placeholder.com/200x300?text=No+Image";
+            : NO_POSTER;
 
         div.innerHTML = `
             <img src="${poster}" alt="${movie.title}">
@@ -183,7 +196,7 @@ function displayFilteredWatchlist(movies) {
 
         const poster = movie.poster_path
             ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
-            : "https://via.placeholder.com/200x300?text=No+Image";
+            : NO_POSTER;
 
         div.innerHTML = `
             <img src="${poster}" alt="${movie.title}">
